@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> hello pretty </title>
+    <title>hello pretty</title>
+
     <style>
         /* 1. Base Cosmic Layout */
         * {
@@ -16,17 +17,23 @@
         body {
             background: radial-gradient(circle at center, #0d1b2a 0%, #010813 100%);
             color: #e2e8f0;
+
+            /* FIX: allow the entire page to scroll */
             min-height: 100vh;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            min-height: 100svh;
+            overflow-x: hidden;
+            overflow-y: auto;
+
+            /* FIX: don't vertically lock the page */
+            display: block;
             position: relative;
+
+            padding: 80px 0 40px;
         }
 
         /* 2. Interactive Astronomy Dynamic Background */
         .stars-bg {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -36,27 +43,51 @@
             background-size: 60px 60px;
             opacity: 0.25;
             z-index: 1;
+            pointer-events: none;
         }
 
         /* Shooting Stars Layout Animation */
         .shooting-star {
-            position: absolute;
+            position: fixed;
             left: 50%;
             top: 50%;
             height: 2px;
-            background: linear-gradient(-45deg, #5b92e5, rgba(0, 0, 0, 0));
+            background: linear-gradient(
+                -45deg,
+                #5b92e5,
+                rgba(0, 0, 0, 0)
+            );
             border-radius: 999px;
             filter: drop-shadow(0 0 6px #69a6ff);
-            animation: tail 3000s ease-in-out infinite, shooting 3s ease-in-out infinite;
+            animation:
+                tail 3000s ease-in-out infinite,
+                shooting 3s ease-in-out infinite;
             z-index: 2;
             opacity: 0;
+            pointer-events: none;
         }
 
         @keyframes shooting {
-            0% { transform: translateX(0) translateY(0) rotate(-45deg); opacity: 1; width: 0px; }
-            10% { width: 100px; }
-            30% { transform: translateX(-300px) translateY(300px) rotate(-45deg); opacity: 0; width: 0px; }
-            100% { transform: translateX(-300px) translateY(300px) rotate(-45deg); opacity: 0; }
+            0% {
+                transform: translateX(0) translateY(0) rotate(-45deg);
+                opacity: 1;
+                width: 0px;
+            }
+
+            10% {
+                width: 100px;
+            }
+
+            30% {
+                transform: translateX(-300px) translateY(300px) rotate(-45deg);
+                opacity: 0;
+                width: 0px;
+            }
+
+            100% {
+                transform: translateX(-300px) translateY(300px) rotate(-45deg);
+                opacity: 0;
+            }
         }
 
         /* 3. Floating Music Interactive Interface */
@@ -65,8 +96,10 @@
             top: 20px;
             right: 20px;
             z-index: 100;
+
             display: flex;
             align-items: center;
+
             background: rgba(13, 27, 42, 0.7);
             padding: 8px 15px;
             border-radius: 30px;
@@ -78,12 +111,19 @@
         .disc {
             width: 30px;
             height: 30px;
-            background: radial-gradient(circle, #222 30%, #444 40%, #111 50%);
+            background: radial-gradient(
+                circle,
+                #222 30%,
+                #444 40%,
+                #111 50%
+            );
             border-radius: 50%;
             border: 2px dashed #ffeaa7;
+
             display: flex;
             justify-content: center;
             align-items: center;
+
             font-size: 0.8rem;
             animation: spin 3s linear infinite;
             animation-play-state: paused;
@@ -94,7 +134,9 @@
         }
 
         @keyframes spin {
-            100% { transform: rotate(360deg); }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .music-status {
@@ -106,15 +148,23 @@
 
         /* 4. Glassmorphism Card Element */
         .container {
-            width: 90%;
+            width: min(90%, 480px);
             max-width: 480px;
+
+            /* FIX: center horizontally without locking vertical position */
+            margin: 0 auto;
+
             background: rgba(13, 27, 42, 0.6);
             backdrop-filter: blur(15px);
+
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 24px;
+
             padding: 35px;
             text-align: center;
+
             box-shadow: 0 0 40px rgba(112, 111, 211, 0.25);
+
             z-index: 10;
             position: relative;
         }
@@ -123,7 +173,10 @@
             display: none;
             flex-direction: column;
             align-items: center;
-            animation: slideIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+
+            animation:
+                slideIn 0.5s cubic-bezier(0.25, 1, 0.5, 1)
+                forwards;
         }
 
         .page.active {
@@ -131,8 +184,15 @@
         }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: scale(0.96) translateY(10px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
+            from {
+                opacity: 0;
+                transform: scale(0.96) translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
 
         h1 {
@@ -154,10 +214,12 @@
             width: 100%;
             height: 200px;
             object-fit: cover;
+
             border-radius: 14px;
             margin-bottom: 22px;
+
             border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
         }
 
         /* 5. Navigation Controls & Proposal Elements */
@@ -166,189 +228,466 @@
             gap: 15px;
             justify-content: center;
             align-items: center;
+
             width: 100%;
             min-height: 55px;
+
+            /* Make sure buttons stay visible */
+            margin-top: 5px;
         }
 
         .nav-btn {
-            background: linear-gradient(135deg, #5f27cd, #341f97);
+            background: linear-gradient(
+                135deg,
+                #5f27cd,
+                #341f97
+            );
+
             color: white;
             border: none;
+
             padding: 12px 35px;
             font-size: 0.95rem;
+
             border-radius: 25px;
             cursor: pointer;
+
             transition: all 0.2s ease;
-            box-shadow: 0 4px 15px rgba(95, 39, 205, 0.3);
+
+            box-shadow:
+                0 4px 15px rgba(95, 39, 205, 0.3);
         }
 
         .nav-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(95, 39, 205, 0.5);
+
+            box-shadow:
+                0 6px 20px rgba(95, 39, 205, 0.5);
         }
 
         #yesBtn {
-            background: linear-gradient(135deg, #1dd1a1, #10ac84);
+            background: linear-gradient(
+                135deg,
+                #1dd1a1,
+                #10ac84
+            );
+
             color: #010813;
             font-weight: bold;
+
             padding: 12px 35px;
+
             border: none;
             border-radius: 25px;
+
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(29, 209, 161, 0.4);
+
+            box-shadow:
+                0 4px 15px rgba(29, 209, 161, 0.4);
+
             transition: transform 0.1s ease;
         }
 
         #noBtn {
-            background: linear-gradient(135deg, #ee5253, #ff6b6b);
+            background: linear-gradient(
+                135deg,
+                #ee5253,
+                #ff6b6b
+            );
+
             color: white;
+
             padding: 12px 35px;
+
             border: none;
             border-radius: 25px;
+
             cursor: pointer;
+
             position: relative;
-            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+            transition:
+                transform 0.15s
+                cubic-bezier(
+                    0.175,
+                    0.885,
+                    0.32,
+                    1.275
+                );
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            body {
+                padding: 70px 0 30px;
+            }
+
+            .container {
+                width: 92%;
+                padding: 25px 20px;
+            }
+
+            .astro-img {
+                height: 180px;
+            }
+
+            p {
+                font-size: 0.95rem;
+            }
+
+            .music-container {
+                top: 12px;
+                right: 12px;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <!-- Space Background with Shooting Stars -->
     <div class="stars-bg"></div>
-    <div class="shooting-star" style="top: 10%; left: 80%; animation-delay: 0s;"></div>
-    <div class="shooting-star" style="top: 30%; left: 90%; animation-delay: 1.5s;"></div>
+
+    <div
+        class="shooting-star"
+        style="top: 10%; left: 80%; animation-delay: 0s;"
+    ></div>
+
+    <div
+        class="shooting-star"
+        style="top: 30%; left: 90%; animation-delay: 1.5s;"
+    ></div>
+
 
     <!-- Background Music Control Widget -->
     <div class="music-container" id="musicToggle">
         <div class="disc" id="musicDisc">🎵</div>
-        <div class="music-status" id="musicLabel">BGM: OFF</div>
+        <div class="music-status" id="musicLabel">
+            BGM: OFF
+        </div>
     </div>
 
-    <!-- Palitan ang lagda ng audio link (.mp3 format) dito -->
-    <audio id="bgMusic" src="https://soundhelix.com" loop></audio>
+
+    <!-- Background Music -->
+    <!-- Replace this with your actual .mp3 URL -->
+    <audio
+        id="bgMusic"
+        src="https://soundhelix.com"
+        loop
+    ></audio>
+
 
     <div class="container">
-        
+
         <!-- PAGE 1 -->
         <div class="page active" id="page1">
+
             <h1>To My Cosmos ✨</h1>
-            <img class="astro-img" src="https://unsplash.com" alt="Space Stars">
-            <p>hi, [  ] . i kept thinking about how i should tell you this, so i made a little space of our own. did you know that among the billions of stars in the universe, your smile is still my favorite thing to look at?
-</p>
+
+            <img
+                class="astro-img"
+                src="https://unsplash.com"
+                alt="Space Stars"
+            >
+
+            <p>
+                hi, [     ] . i kept thinking about how i should tell you
+                this, so i made a little space of our own. did you know
+                that among the billions of stars in the universe, your
+                smile is still my favorite thing to look at?
+            </p>
+
             <div class="btn-container">
-                <button class="nav-btn" onclick="nextPage(2)">Next 🚀</button>
+                <button
+                    class="nav-btn"
+                    onclick="nextPage(2)"
+                >
+                    Next 🚀
+                </button>
             </div>
+
         </div>
+
 
         <!-- PAGE 2 -->
         <div class="page" id="page2">
+
             <h1>Perfect Alignment 🌌</h1>
-            <img class="astro-img" src="https://unsplash.com" alt="Galaxy">
-            <p> sometimes i think about how impossibly large the universe is—how there are billions of stars, countless galaxies, and probably more worlds than we'll ever know. and somehow, in all that space and all the possibilities of who i could've met, i found you. i don't need to believe we're written in the stars; i'm just grateful that, in this one life and this one universe, our paths happened to cross. if i had to choose a place to stay among all those galaxies, i'd still choose wherever you are.
-        </p>
+
+            <img
+                class="astro-img"
+                src="https://unsplash.com"
+                alt="Galaxy"
+            >
+
+            <p>
+                sometimes i think about how impossibly large the universe
+                is—how there are billions of stars, countless galaxies,
+                and probably more worlds than we'll ever know. and somehow,
+                in all that space and all the possibilities of who i
+                could've met, i found you. i don't need to believe we're
+                written in the stars; i'm just grateful that, in this one
+                life and this one universe, our paths happened to cross.
+                if i had to choose a place to stay among all those galaxies,
+                i'd still choose wherever you are.
+            </p>
+
             <div class="btn-container">
-                <button class="nav-btn" onclick="nextPage(3)">Next 💫</button>
+                <button
+                    class="nav-btn"
+                    onclick="nextPage(3)"
+                >
+                    Next 💫
+                </button>
             </div>
+
         </div>
+
 
         <!-- PAGE 3 -->
         <div class="page" id="page3">
+
             <h1>Infinite Horizons 🪐</h1>
-            <img class="astro-img" src="https://unsplash.com" alt="Nebula">
-            <p></p> There's something strangely beautiful about looking at the night sky and knowing that every light I see has traveled so far just to reach me. It makes me think that maybe some things are worth waiting for, no matter how far away they seem. And if loving someone is its own kind of journey, then I think I'd happily spend mine learning every part of you—the things you say, the things you don't, the little things that make you smile, and even the parts of you that you think aren't worth loving. I don't know what the universe has planned for either of us, but I know that right now, there's one person I'd choose to have beside me when I look up at the stars. And that's you.
+
+            <img
+                class="astro-img"
+                src="https://unsplash.com"
+                alt="Nebula"
+            >
+
+            <!-- FIXED: paragraph tag -->
+            <p>
+                There's something strangely beautiful about looking at
+                the night sky and knowing that every light I see has
+                traveled so far just to reach me. It makes me think that
+                maybe some things are worth waiting for, no matter how
+                far away they seem. And if loving someone is its own kind
+                of journey, then I think I'd happily spend mine learning
+                every part of you—the things you say, the things you don't,
+                the little things that make you smile, and even the parts
+                of you that you think aren't worth loving. I don't know
+                what the universe has planned for either of us, but I know
+                that right now, there's one person I'd choose to have
+                beside me when I look up at the stars. And that's you.
+            </p>
+
             <div class="btn-container">
-                <button class="nav-btn" onclick="nextPage(4)">Click Here 🌟</button>
+                <button
+                    class="nav-btn"
+                    onclick="nextPage(4)"
+                >
+                    Click Here 🌟
+                </button>
             </div>
+
         </div>
+
 
         <!-- PAGE 4: Proposal Section -->
         <div class="page" id="page4">
-            <h1 id="proposalQuestion">Will you be my Valentine? 🌹❤️</h1>
-            <img class="astro-img" id="proposalGif" src="https://unsplash.com" alt="Love Constellation">
+
+            <h1 id="proposalQuestion">
+                Will you be my Valentine? 🌹❤️
+            </h1>
+
+            <img
+                class="astro-img"
+                id="proposalGif"
+                src="https://unsplash.com"
+                alt="Love Constellation"
+            >
+
             <div class="btn-container">
-                <button id="yesBtn">Yes! 😍</button>
-                <button id="noBtn">No 😢</button>
+
+                <button id="yesBtn">
+                    Yes! 😍
+                </button>
+
+                <button id="noBtn">
+                    No 😢
+                </button>
+
             </div>
+
         </div>
 
     </div>
 
-<script>
-    let yesScale = 1;
-    let noClicks = 0;
 
-    const noPhrases = [
-        "Are you sure? 🥺",
-        "Try again! 😜",
-        "Bawal pindutin 'to! 🌌",
-        "Maling button! 👉",
-        "Wala ka nang kawala! ❤️"
-    ];
+    <script>
 
-    const bgMusic = document.getElementById('bgMusic');
-    const musicDisc = document.getElementById('musicDisc');
-    const musicLabel = document.getElementById('musicLabel');
-    const musicToggle = document.getElementById('musicToggle');
+        let yesScale = 1;
+        let noClicks = 0;
 
-    // 🎼 Manual Music Toggle para hindi ma-stuck ang system kapag hindi pa loaded ang kanta
-    function togglePlay() {
-        if (bgMusic.paused) {
-            bgMusic.play()
-                .then(() => {
-                    musicDisc.classList.add('playing');
-                    musicLabel.innerText = "BGM: ON";
-                })
-                .catch(e => {
-                    console.log("Hinarang ng browser ang audio load: kailangan munang pindutin ang disc icon.");
-                    alert("Click the music disc at the top right to play the theme song! 🎵");
-                });
-        } else {
-            bgMusic.pause();
-            musicDisc.classList.remove('playing');
-            musicLabel.innerText = "BGM: OFF";
+
+        const noPhrases = [
+            "are you sure?",
+            "try again! 😜",
+            "bawal 'to buiii",
+            "ENGGKKK! wrong button!",
+            "AKIN KA NA OYYY HAHAHAHHAH"
+        ];
+
+
+        /* MUSIC */
+        const bgMusic =
+            document.getElementById('bgMusic');
+
+        const musicDisc =
+            document.getElementById('musicDisc');
+
+        const musicLabel =
+            document.getElementById('musicLabel');
+
+        const musicToggle =
+            document.getElementById('musicToggle');
+
+
+        function togglePlay() {
+
+            if (bgMusic.paused) {
+
+                bgMusic.play()
+                    .then(() => {
+
+                        musicDisc.classList.add('playing');
+
+                        musicLabel.innerText =
+                            "BGM: ON";
+
+                    })
+
+                    .catch(e => {
+
+                        console.log(
+                            "Audio could not be played."
+                        );
+
+                        alert(
+                            "Click the music disc at the top right to play the theme song! 🎵"
+                        );
+
+                    });
+
+            } else {
+
+                bgMusic.pause();
+
+                musicDisc.classList.remove(
+                    'playing'
+                );
+
+                musicLabel.innerText =
+                    "BGM: OFF";
+            }
         }
-    }
-    
-    musicToggle.addEventListener('click', togglePlay);
 
-    // 🚀 Core Page Navigation Logic - Malinis at hinding-hindi na magka-crash o mag-freeze
-    function nextPage(pageNumber) {
-        document.querySelectorAll('.page').forEach(page => {
-            page.classList.remove('active');
-        });
-        document.getElementById(`page${pageNumber}`).classList.add('active');
-    }
 
-    const yesBtn = document.getElementById('yesBtn');
-    const noBtn = document.getElementById('noBtn');
-    const questionText = document.getElementById('proposalQuestion');
+        musicToggle.addEventListener(
+            'click',
+            togglePlay
+        );
 
-    // Interactive Moving "No" Logic (Zero-layout freeze)
-    function escapeNoButton() {
-        noClicks++;
-        
-        yesScale += 0.35;
-        yesBtn.style.transform = `scale(${yesScale})`;
 
-        const phraseIndex = noClicks % noPhrases.length;
-        noBtn.innerText = noPhrases[phraseIndex];
+        /* PAGE NAVIGATION */
+        function nextPage(pageNumber) {
 
-        // Controlled random boundary offsets inside the modal limits
-        const randomX = (Math.random() - 0.5) * 160; 
-        const randomY = (Math.random() - 0.5) * 100; 
-        
-        noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
-    }
+            document
+                .querySelectorAll('.page')
+                .forEach(page => {
 
-    noBtn.addEventListener('click', escapeNoButton);
-    noBtn.addEventListener('mouseover', escapeNoButton);
+                    page.classList.remove(
+                        'active'
+                    );
 
-    // Yes Success Stage
-    yesBtn.addEventListener('click', () => {
-        questionText.innerText = "YAAAAAY! i love you more than i love the stars!";
-        noBtn.style.display = 'none';
-        yesBtn.style.transform = "scale(1.2)";
-        yesBtn.disabled = true;
-        yesBtn.innerText = "bomba na";
-    });
-</script>
+                });
+
+            document
+                .getElementById(`page${pageNumber}`)
+                .classList.add('active');
+
+            /* Reset scroll position when changing pages */
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+
+        /* YES / NO BUTTONS */
+        const yesBtn =
+            document.getElementById('yesBtn');
+
+        const noBtn =
+            document.getElementById('noBtn');
+
+        const questionText =
+            document.getElementById(
+                'proposalQuestion'
+            );
+
+
+        function escapeNoButton() {
+
+            noClicks++;
+
+            yesScale += 0.35;
+
+            yesBtn.style.transform =
+                `scale(${yesScale})`;
+
+            const phraseIndex =
+                noClicks % noPhrases.length;
+
+            noBtn.innerText =
+                noPhrases[phraseIndex];
+
+
+            const randomX =
+                (Math.random() - 0.5) * 160;
+
+            const randomY =
+                (Math.random() - 0.5) * 100;
+
+            noBtn.style.transform =
+                `translate(${randomX}px, ${randomY}px)`;
+        }
+
+
+        noBtn.addEventListener(
+            'click',
+            escapeNoButton
+        );
+
+        noBtn.addEventListener(
+            'mouseover',
+            escapeNoButton
+        );
+
+
+        /* YES SUCCESS */
+        yesBtn.addEventListener(
+            'click',
+            () => {
+
+                questionText.innerText =
+                    "YAAAAAY! i love you more than i love the stars!";
+
+                noBtn.style.display =
+                    'none';
+
+                yesBtn.style.transform =
+                    "scale(1.2)";
+
+                yesBtn.disabled =
+                    true;
+
+                yesBtn.innerText =
+                    "AYOOO BOMBA NA";
+            }
+        );
+
+    </script>
+
+</body>
+</html>
