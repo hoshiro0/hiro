@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> hello pretty </title>
+    <style>
+        /* 1. Base Cosmic Layout */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #0d1b2a 0%, #010813 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* 2. Interactive Astronomy Dynamic Background */
+        .stars-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            clip-path: radial-gradient(circle, #fff 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.25;
+            z-index: 1;
+        }
+
+        /* Shooting Stars Layout Animation */
+        .shooting-star {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            height: 2px;
+            background: linear-gradient(-45deg, #5b92e5, rgba(0, 0, 0, 0));
+            border-radius: 999px;
+            filter: drop-shadow(0 0 6px #69a6ff);
+            animation: tail 3000s ease-in-out infinite, shooting 3s ease-in-out infinite;
+            z-index: 2;
+            opacity: 0;
+        }
+
+        @keyframes shooting {
+            0% { transform: translateX(0) translateY(0) rotate(-45deg); opacity: 1; width: 0px; }
+            10% { width: 100px; }
+            30% { transform: translateX(-300px) translateY(300px) rotate(-45deg); opacity: 0; width: 0px; }
+            100% { transform: translateX(-300px) translateY(300px) rotate(-45deg); opacity: 0; }
+        }
+
+        /* 3. Floating Music Interactive Interface */
+        .music-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            background: rgba(13, 27, 42, 0.7);
+            padding: 8px 15px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            cursor: pointer;
+        }
+
+        .disc {
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle, #222 30%, #444 40%, #111 50%);
+            border-radius: 50%;
+            border: 2px dashed #ffeaa7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            animation: spin 3s linear infinite;
+            animation-play-state: paused;
+        }
+
+        .disc.playing {
+            animation-play-state: running;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .music-status {
+            font-size: 0.75rem;
+            margin-left: 10px;
+            color: #ffeaa7;
+            letter-spacing: 1px;
+        }
+
+        /* 4. Glassmorphism Card Element */
+        .container {
+            width: 90%;
+            max-width: 480px;
+            background: rgba(13, 27, 42, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            padding: 35px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(112, 111, 211, 0.25);
+            z-index: 10;
+            position: relative;
+        }
+
+        .page {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            animation: slideIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: scale(0.96) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        h1 {
+            font-size: 1.7rem;
+            color: #ffeaa7;
+            margin-bottom: 18px;
+            text-shadow: 0 0 12px rgba(255, 234, 167, 0.4);
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 22px;
+            color: #f1f5f9;
+            text-align: justify;
+        }
+
+        .astro-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 14px;
+            margin-bottom: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        /* 5. Navigation Controls & Proposal Elements */
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            min-height: 55px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #5f27cd, #341f97);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-size: 0.95rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(95, 39, 205, 0.3);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(95, 39, 205, 0.5);
+        }
+
+        #yesBtn {
+            background: linear-gradient(135deg, #1dd1a1, #10ac84);
+            color: #010813;
+            font-weight: bold;
+            padding: 12px 35px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(29, 209, 161, 0.4);
+            transition: transform 0.1s ease;
+        }
+
+        #noBtn {
+            background: linear-gradient(135deg, #ee5253, #ff6b6b);
+            color: white;
+            padding: 12px 35px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Space Background with Shooting Stars -->
+    <div class="stars-bg"></div>
+    <div class="shooting-star" style="top: 10%; left: 80%; animation-delay: 0s;"></div>
+    <div class="shooting-star" style="top: 30%; left: 90%; animation-delay: 1.5s;"></div>
+
+    <!-- Background Music Control Widget -->
+    <div class="music-container" id="musicToggle">
+        <div class="disc" id="musicDisc">🎵</div>
+        <div class="music-status" id="musicLabel">BGM: OFF</div>
+    </div>
+
+    <!-- Palitan ang lagda ng audio link (.mp3 format) dito -->
+    <audio id="bgMusic" src="https://soundhelix.com" loop></audio>
+
+    <div class="container">
+        
+        <!-- PAGE 1 -->
+        <div class="page active" id="page1">
+            <h1>To My Cosmos ✨</h1>
+            <img class="astro-img" src="https://unsplash.com" alt="Space Stars">
+            <p>hi, [  ] . i kept thinking about how i should tell you this, so i made a little space of our own. did you know that among the billions of stars in the universe, your smile is still my favorite thing to look at?
+</p>
+            <div class="btn-container">
+                <button class="nav-btn" onclick="nextPage(2)">Next 🚀</button>
+            </div>
+        </div>
+
+        <!-- PAGE 2 -->
+        <div class="page" id="page2">
+            <h1>Perfect Alignment 🌌</h1>
+            <img class="astro-img" src="https://unsplash.com" alt="Galaxy">
+            <p> sometimes i think about how impossibly large the universe is—how there are billions of stars, countless galaxies, and probably more worlds than we'll ever know. and somehow, in all that space and all the possibilities of who i could've met, i found you. i don't need to believe we're written in the stars; i'm just grateful that, in this one life and this one universe, our paths happened to cross. if i had to choose a place to stay among all those galaxies, i'd still choose wherever you are.
+        </p>
+            <div class="btn-container">
+                <button class="nav-btn" onclick="nextPage(3)">Next 💫</button>
+            </div>
+        </div>
+
+        <!-- PAGE 3 -->
+        <div class="page" id="page3">
+            <h1>Infinite Horizons 🪐</h1>
+            <img class="astro-img" src="https://unsplash.com" alt="Nebula">
+            <p></p> There's something strangely beautiful about looking at the night sky and knowing that every light I see has traveled so far just to reach me. It makes me think that maybe some things are worth waiting for, no matter how far away they seem. And if loving someone is its own kind of journey, then I think I'd happily spend mine learning every part of you—the things you say, the things you don't, the little things that make you smile, and even the parts of you that you think aren't worth loving. I don't know what the universe has planned for either of us, but I know that right now, there's one person I'd choose to have beside me when I look up at the stars. And that's you.
+            <div class="btn-container">
+                <button class="nav-btn" onclick="nextPage(4)">Click Here 🌟</button>
+            </div>
+        </div>
+
+        <!-- PAGE 4: Proposal Section -->
+        <div class="page" id="page4">
+            <h1 id="proposalQuestion">Will you be my Valentine? 🌹❤️</h1>
+            <img class="astro-img" id="proposalGif" src="https://unsplash.com" alt="Love Constellation">
+            <div class="btn-container">
+                <button id="yesBtn">Yes! 😍</button>
+                <button id="noBtn">No 😢</button>
+            </div>
+        </div>
+
+    </div>
+
+<script>
+    let yesScale = 1;
+    let noClicks = 0;
+
+    const noPhrases = [
+        "Are you sure? 🥺",
+        "Try again! 😜",
+        "Bawal pindutin 'to! 🌌",
+        "Maling button! 👉",
+        "Wala ka nang kawala! ❤️"
+    ];
+
+    const bgMusic = document.getElementById('bgMusic');
+    const musicDisc = document.getElementById('musicDisc');
+    const musicLabel = document.getElementById('musicLabel');
+    const musicToggle = document.getElementById('musicToggle');
+
+    // 🎼 Manual Music Toggle para hindi ma-stuck ang system kapag hindi pa loaded ang kanta
+    function togglePlay() {
+        if (bgMusic.paused) {
+            bgMusic.play()
+                .then(() => {
+                    musicDisc.classList.add('playing');
+                    musicLabel.innerText = "BGM: ON";
+                })
+                .catch(e => {
+                    console.log("Hinarang ng browser ang audio load: kailangan munang pindutin ang disc icon.");
+                    alert("Click the music disc at the top right to play the theme song! 🎵");
+                });
+        } else {
+            bgMusic.pause();
+            musicDisc.classList.remove('playing');
+            musicLabel.innerText = "BGM: OFF";
+        }
+    }
+    
+    musicToggle.addEventListener('click', togglePlay);
+
+    // 🚀 Core Page Navigation Logic - Malinis at hinding-hindi na magka-crash o mag-freeze
+    function nextPage(pageNumber) {
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.remove('active');
+        });
+        document.getElementById(`page${pageNumber}`).classList.add('active');
+    }
+
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const questionText = document.getElementById('proposalQuestion');
+
+    // Interactive Moving "No" Logic (Zero-layout freeze)
+    function escapeNoButton() {
+        noClicks++;
+        
+        yesScale += 0.35;
+        yesBtn.style.transform = `scale(${yesScale})`;
+
+        const phraseIndex = noClicks % noPhrases.length;
+        noBtn.innerText = noPhrases[phraseIndex];
+
+        // Controlled random boundary offsets inside the modal limits
+        const randomX = (Math.random() - 0.5) * 160; 
+        const randomY = (Math.random() - 0.5) * 100; 
+        
+        noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    }
+
+    noBtn.addEventListener('click', escapeNoButton);
+    noBtn.addEventListener('mouseover', escapeNoButton);
+
+    // Yes Success Stage
+    yesBtn.addEventListener('click', () => {
+        questionText.innerText = "YAAAAAY! i love you more than i love the stars!";
+        noBtn.style.display = 'none';
+        yesBtn.style.transform = "scale(1.2)";
+        yesBtn.disabled = true;
+        yesBtn.innerText = "bomba na";
+    });
+</script>
